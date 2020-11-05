@@ -3,8 +3,8 @@ import java.util.Scanner;
 
 public class viewTest {
     Scanner scanner = new Scanner(System.in);
-    public static String slt;
-    public static ResultSet rst;
+    public static String a;
+    public static ResultSet result;
 
     public static void main(String[] args) {
         System.out.println("Welcome to E-bookstore!!!");
@@ -15,20 +15,20 @@ public class viewTest {
     public static void top10newest() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ebookstore", "root", "");
              Statement stmt = conn.createStatement()) {
-            slt = "SELECT * FROM books order by years limit 10";
-            rst = stmt.executeQuery(slt);
+            a = "SELECT * FROM books order by years limit 10";
+            result = stmt.executeQuery(a);
             System.out.println("THE 10 NEWEST BOOKS:");
             System.out.println("=============================================================================================================");
             System.out.println("bookID\t\t\ttitle\t\t\t\t\t\tauthor\t\t\t\t\t\tyears\t\t\tgenre\t\tstatus\t\tqty\t\tprice");
-            while (rst.next()) {
-                int id = rst.getInt("bookID");
-                String title = rst.getString("title");
-                String author = rst.getString("author");
-                String years = rst.getString("years");
-                int genre = rst.getInt("genre");
-                int status = rst.getInt("status");
-                int qty = rst.getInt("qty");
-                double price = rst.getDouble("price");
+            while (result.next()) {
+                int id = result.getInt("bookID");
+                String title = result.getString("title");
+                String author = result.getString("author");
+                String years = result.getString("years");
+                int genre = result.getInt("genre");
+                int status = result.getInt("status");
+                int qty = result.getInt("qty");
+                double price = result.getDouble("price");
                 System.out.printf("%-8d\t\t%-20s\t\t%-20s\t\t%-10s\t\t%-6d\t\t%-6d\t\t%-6d\t%-6.1f\n",id,title,author,years,genre,status,qty,price);
             }
             System.out.println("**Status: 1-Out of stock, 2-available, 3-available soon**");
@@ -40,22 +40,22 @@ public class viewTest {
     public static void topSeller(){
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ebookstore", "root", "");
              Statement stmt = conn.createStatement()) {
-            slt = "select books.bookID,books.title,author,years,genre,books.status,qty,books.price,sum(orderdetail.amount) as soldamount from books inner join orderdetail on books.bookID = orderdetail.bookID inner join orders on orders.orderID = orderdetail.orderID" +
+            a = "select books.bookID,books.title,author,years,genre,books.status,qty,books.price,sum(orderdetail.amount) as soldamount from books inner join orderdetail on books.bookID = orderdetail.bookID inner join orders on orders.orderID = orderdetail.orderID" +
                     " where orders.status != 0 group by books.bookID,books.title,author,years,genre,books.status,qty,books.price order by soldamount DESC limit 10";
-            rst = stmt.executeQuery(slt);
+            result = stmt.executeQuery(a);
             System.out.println("TOP 10 SELLER:\n" +
                     "====================================================================================================================================");
             System.out.println("bookID\t\t\ttitle\t\t\t\t\t\tauthor\t\t\t\t\t\tyears\t\t\tgenre\t\tstatus\t\tqty\t\tprice\tsoldamount");
-            while(rst.next()){
-                int id = rst.getInt("bookID");
-                String title = rst.getString("title");
-                String author = rst.getString("author");
-                String year = rst.getString("years");
-                int genre = rst.getInt("genre");
-                int status = rst.getInt("status");
-                int qty = rst.getInt("qty");
-                double price = rst.getDouble("price");
-                int soldamount = rst.getInt("soldamount");
+            while(result.next()){
+                int id = result.getInt("bookID");
+                String title = result.getString("title");
+                String author = result.getString("author");
+                String year = result.getString("years");
+                int genre = result.getInt("genre");
+                int status = result.getInt("status");
+                int qty = result.getInt("qty");
+                double price = result.getDouble("price");
+                int soldamount = result.getInt("soldamount");
                 System.out.printf("%-8d\t\t%-20s\t\t%-20s\t\t%-10s\t\t%-6d\t\t%-6d\t\t%-6d\t%-6.1f\t\t%-6d\n",id,title,author,year,genre,status,qty,price,soldamount);
             }
             System.out.println("**Status: 1-Out of stock, 2-available, 3-available soon**\n" +
@@ -186,18 +186,18 @@ public class viewTest {
         System.out.println("===========================================================================================================================");
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ebookstore", "root", "");
              Statement stmt = conn.createStatement()) {
-            slt = "SELECT bookID,title,author,years,books.genre,status,qty,price FROM books inner join category on category.genre = books.genre where books.genre =" + cat;
-            rst = stmt.executeQuery(slt);
+            a = "SELECT bookID,title,author,years,books.genre,status,qty,price FROM books inner join category on category.genre = books.genre where books.genre =" + cat;
+            result = stmt.executeQuery(a);
             System.out.println("bookID\t\t\ttitle\t\t\t\t\t\tauthor\t\t\t\t\t\tyears\t\t\tgenre\t\tstatus\t\tqty\t\tprice");
-            while (rst.next()) {
-                int id = rst.getInt("bookID");
-                String title = rst.getString("title");
-                String author = rst.getString("author");
-                String years = rst.getString("years");
-                int genre = rst.getInt("genre");
-                int status = rst.getInt("status");
-                int qty = rst.getInt("qty");
-                double price = rst.getDouble("price");
+            while (result.next()) {
+                int id = result.getInt("bookID");
+                String title = result.getString("title");
+                String author = result.getString("author");
+                String years = result.getString("years");
+                int genre = result.getInt("genre");
+                int status = result.getInt("status");
+                int qty = result.getInt("qty");
+                double price = result.getDouble("price");
                 System.out.printf("%-8d\t\t%-20s\t\t%-20s\t\t%-10s\t\t%-6d\t\t%-6d\t\t%-6d\t%-6.1f\n",id,title,author,years,genre,status,qty,price);
             }
             System.out.println("**Status: 1-Out of stock, 2-available, 3-available soon**");
@@ -212,19 +212,19 @@ public class viewTest {
         String authors = scanner.nextLine();
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ebookstore", "root", "");
              Statement stmt = conn.createStatement()) {
-            slt = "SELECT bookID,title,author,years,books.genre,status,qty,price FROM books where author like \'%" + authors + "%\'";
-            rst = stmt.executeQuery(slt);
+            a = "SELECT bookID,title,author,years,books.genre,status,qty,price FROM books where author like \'%" + authors + "%\'";
+            result = stmt.executeQuery(a);
             System.out.println("===============================================================================================================================");
             System.out.println("bookID\t\t\ttitle\t\t\t\t\t\tauthor\t\t\t\t\t\tyears\t\t\tgenre\t\tstatus\t\tqty\t\tprice");
-            while (rst.next()) {
-                int id = rst.getInt("bookID");
-                String title = rst.getString("title");
-                String author = rst.getString("author");
-                String years = rst.getString("years");
-                int genre = rst.getInt("genre");
-                int status = rst.getInt("status");
-                int qty = rst.getInt("qty");
-                double price = rst.getDouble("price");
+            while (result.next()) {
+                int id = result.getInt("bookID");
+                String title = result.getString("title");
+                String author = result.getString("author");
+                String years = result.getString("years");
+                int genre = result.getInt("genre");
+                int status = result.getInt("status");
+                int qty = result.getInt("qty");
+                double price = result.getDouble("price");
                 System.out.printf("%-8d\t\t%-20s\t\t%-20s\t\t%-10s\t\t%-6d\t\t%-6d\t\t%-6d\t%-6.1f\n",id,title,author,years,genre,status,qty,price);
             }
             System.out.println("**Status: 1-Out of stock, 2-available, 3-available soon**\n" +
@@ -239,19 +239,19 @@ public class viewTest {
         int bookid = scanner.nextInt();
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ebookstore", "root", "");
              Statement stmt = conn.createStatement()) {
-            slt = "SELECT bookID,title,author,years,books.genre,status,qty,price FROM books where bookID = " + bookid;
-            rst = stmt.executeQuery(slt);
+            a = "SELECT bookID,title,author,years,books.genre,status,qty,price FROM books where bookID = " + bookid;
+            result = stmt.executeQuery(a);
             System.out.println("====================================================================================================================================");
             System.out.println("bookID\t\t\ttitle\t\t\t\t\t\tauthor\t\t\t\t\t\tyears\t\t\tgenre\t\tstatus\t\tqty\t\tprice");
-            while (rst.next()) {
-                int id = rst.getInt("bookID");
-                String title = rst.getString("title");
-                String author = rst.getString("author");
-                String years = rst.getString("years");
-                int genre = rst.getInt("genre");
-                int status = rst.getInt("status");
-                int qty = rst.getInt("qty");
-                double price = rst.getDouble("price");
+            while (result.next()) {
+                int id = result.getInt("bookID");
+                String title = result.getString("title");
+                String author = result.getString("author");
+                String years = result.getString("years");
+                int genre = result.getInt("genre");
+                int status = result.getInt("status");
+                int qty = result.getInt("qty");
+                double price = result.getDouble("price");
                 System.out.printf("%-8d\t\t%-20s\t\t%-20s\t\t%-10s\t\t%-6d\t\t%-6d\t\t%-6d\t%-6.1f\n",id,title,author,years,genre,status,qty,price);
             }
             System.out.println("**Status: 1-Out of stock, 2-available, 3-available soon**\n" +
@@ -292,15 +292,15 @@ public class viewTest {
                     break;
             }
             System.out.println("orderID\t\tcustomerID\t\tdiscount\t\ttotal\t\torderdate\t\tstatus");
-            slt = "Select orderID,customerID,discount,total,orderdate,status from orders where status = " + stt;
-            rst = stmt.executeQuery(slt);
-            while (rst.next()) {
-                int id = rst.getInt("orderID");
-                int cusID = rst.getInt("customerID");
-                int discount = rst.getInt("discount");
-                double total = rst.getDouble("total");
-                String orderdate = rst.getString("orderdate");
-                int status = rst.getInt("status");
+            a = "Select orderID,customerID,discount,total,orderdate,status from orders where status = " + stt;
+            result = stmt.executeQuery(a);
+            while (result.next()) {
+                int id = result.getInt("orderID");
+                int cusID = result.getInt("customerID");
+                int discount = result.getInt("discount");
+                double total = result.getDouble("total");
+                String orderdate = result.getString("orderdate");
+                int status = result.getInt("status");
                 System.out.printf("%-6d\t\t%-8d\t\t%-8d\t\t%-6.1f\t\t%-12s\t%-6d\n",id,cusID,discount,total,orderdate,status);
             }
             System.out.println("===========================================================================================================================");
@@ -316,15 +316,15 @@ public class viewTest {
              Statement stmt = conn.createStatement()) {
             System.out.println("==================================================================================================");
             System.out.println("orderID\t\tcustomerID\t\tdiscount\t\ttotal\t\torderdate\t\tstatus");
-            slt = "Select orderID,customerID,discount,total,orderdate,status from orders where customerID =" + cusid;
-            rst = stmt.executeQuery(slt);
-            while (rst.next()) {
-                int id = rst.getInt("orderID");
-                int cusID = rst.getInt("customerID");
-                int discount = rst.getInt("discount");
-                double total = rst.getDouble("total");
-                String orderdate = rst.getString("orderdate");
-                int status = rst.getInt("status");
+            a = "Select orderID,customerID,discount,total,orderdate,status from orders where customerID =" + cusid;
+            result = stmt.executeQuery(a);
+            while (result.next()) {
+                int id = result.getInt("orderID");
+                int cusID = result.getInt("customerID");
+                int discount = result.getInt("discount");
+                double total = result.getDouble("total");
+                String orderdate = result.getString("orderdate");
+                int status = result.getInt("status");
                 System.out.printf("%-6d\t\t%-8d\t\t%-8d\t\t%-6.1f\t\t%-12s\t%-6d\n",id,cusID,discount,total,orderdate,status);
             }
             System.out.println("**Status: 0-Canceled, 1-Confirmed, 2-Pending,3-Ready,4-Delivering,5-Delivered");
@@ -341,15 +341,15 @@ public class viewTest {
              Statement stmt = conn.createStatement()) {
             System.out.println("=========================================================================================================");
             System.out.println("orderID\t\tcustomerID\t\tdiscount\t\ttotal\t\torderdate\t\tstatus");
-            slt = "Select * from orders where orderID =" + orid;
-            rst = stmt.executeQuery(slt);
-            while (rst.next()) {
-                int id = rst.getInt("orderID");
-                int cusID = rst.getInt("customerID");
-                int discount = rst.getInt("discount");
-                double total = rst.getDouble("total");
-                String orderdate = rst.getString("orderdate");
-                int status = rst.getInt("status");
+            a = "Select * from orders where orderID =" + orid;
+            result = stmt.executeQuery(a);
+            while (result.next()) {
+                int id = result.getInt("orderID");
+                int cusID = result.getInt("customerID");
+                int discount = result.getInt("discount");
+                double total = result.getDouble("total");
+                String orderdate = result.getString("orderdate");
+                int status = result.getInt("status");
                 System.out.printf("%-6d\t\t%-8d\t\t%-8d\t\t%-6.1f\t\t%-12s\t%-6d\n",id,cusID,discount,total,orderdate,status);
                 switch (status) {
                     case 0:
@@ -392,15 +392,15 @@ public class viewTest {
              Statement stmt = conn.createStatement()) {
             System.out.println("===========================================================================================================================");
             System.out.println("orderID\t\toderdate\t\tbookID\t\ttitle\t\t\t\tprice\t\tamount");
-            slt = "Select orders.orderID,orderdate,bookID,title,price,amount from orders inner join orderdetail on orders.orderID = orderdetail.orderID where orders.orderID =" + orid;
-            rst = stmt.executeQuery(slt);
-            while (rst.next()) {
-                int id = rst.getInt("orderID");
-                String date = rst.getString("orderdate");
-                int bookid = rst.getInt("bookID");
-                String title = rst.getString("title");
-                double price = rst.getDouble("price");
-                int amount = rst.getInt("amount");
+            a = "Select orders.orderID,orderdate,bookID,title,price,amount from orders inner join orderdetail on orders.orderID = orderdetail.orderID where orders.orderID =" + orid;
+            result = stmt.executeQuery(a);
+            while (result.next()) {
+                int id = result.getInt("orderID");
+                String date = result.getString("orderdate");
+                int bookid = result.getInt("bookID");
+                String title = result.getString("title");
+                double price = result.getDouble("price");
+                int amount = result.getInt("amount");
                 System.out.printf("%-6d\t\t%-12s\t%-8d\t%-12s\t\t%-6.1f\t\t%-6d\n",id,date,bookid,title,price,amount);
             }
             System.out.println("===========================================================================================================================");
